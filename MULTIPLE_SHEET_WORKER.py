@@ -3,7 +3,8 @@ from tkinter import ttk, messagebox, filedialog
 import pandas as pd
 import threading
 import xlsxwriter
-
+global common_elements_export
+common_elements_export=[]
 class ExcelApp:
     def __init__(self, root):
         self.root = root
@@ -139,7 +140,8 @@ class ExcelApp:
                     common_unique_elements = unique_elements
                 else:
                     common_unique_elements &= unique_elements  # Intersection of sets
-
+        global common_elements_export
+        common_elements_export=list(common_unique_elements)
         if common_unique_elements:
             self.unique_elements_text.insert(tk.END, "Common Unique Elements:\n")
             for element in common_unique_elements:
@@ -207,7 +209,7 @@ class ExcelApp:
             total_elements = len(self.df[self.selected_sheet][self.selected_column])
             self.total_elements_var.set(total_elements)
 
-    def export_elements(self):
+    def export_elements_OLD(self):
         if self.selected_sheets:
             export_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx")])
             if export_path:
@@ -225,6 +227,17 @@ class ExcelApp:
                 writer.save()
                 writer.close()
                 messagebox.showinfo("Export Successful", "Common unique elements exported to an Excel file.")
+        else:
+            messagebox.showerror("Error", "No columns selected.")
+            
+    def export_elements(self):
+        if self.selected_sheets:
+            export_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx")])
+            global common_elements_export
+            
+            output=pd.DataFrame(common_elements_export)
+            output.to_excel(export_path, index=False)
+            messagebox.showinfo("Export Successful", "Common unique elements exported to an Excel file.")
         else:
             messagebox.showerror("Error", "No columns selected.")
 
