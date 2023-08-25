@@ -65,9 +65,9 @@ class ExcelApp:
         self.unique_elements_label.pack(pady=5)
 
         self.unique_elements_text = tk.Text(root, height=10, width=40)
-        self.unique_elements_text.pack(pady=5)
+        self.unique_elements_text.pack(pady=5, fill=tk.BOTH)
 
-        self.total_elements_label = ttk.Label(root, text="Total Elements:")
+        self.total_elements_label = ttk.Label(root, text="Total Unique Elements:")
         self.total_elements_label.pack(pady=5)
 
         self.total_elements_var = tk.StringVar()
